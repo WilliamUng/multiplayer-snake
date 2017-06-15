@@ -35,9 +35,7 @@ class Snake {
       }
     }
 
-    var spawnX = 30;
-    var spawnY = 30;
-
+    var spawnLocation = this.spawnLocation();
     var direction = 'RIGHT';
     var nextDir = 'RIGHT';
 
@@ -50,13 +48,10 @@ class Snake {
       size: 2,
       direction,
       nextDir,
-      head: {
-        x: spawnX,
-        y: spawnY
-      },
+      head: spawnLocation,
       tail: {
-        x: spawnX - 1,
-        y: spawnY
+        x: spawnLocation.x - 1,
+        y: spawnLocation.y
       },
       socket
     }
@@ -210,6 +205,21 @@ class Snake {
   playerPop(i) {
     this.board[this.playerList[i].tail.x][this.playerList[i].tail.y] = 0;
     this.playerList[i].tail = this.playerList[i].tail.prev;
+  }
+
+  spawnLocation() {
+    var clear = false;
+    while (!clear) {
+      clear = true;
+      var x = Math.floor((Math.random() * this.boardSize - 1)) + 1;
+      var y = Math.floor((Math.random() * this.boardSize));
+
+      if (this.board[x][y] != 0 || this.board[x+1][y] >=2 || this.board[x+2][y] >=2 || this.board[x+3][y] >=2) {
+        clear = false;
+      }
+    }
+
+    return {x,y};
   }
 
   spawnFood() {
