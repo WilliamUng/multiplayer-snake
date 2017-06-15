@@ -2,6 +2,9 @@ var canvas;
 var ctx;
 
 var socket;
+var playerName;
+var playerColour;
+
 
 function initGame() {
   canvas = document.getElementById('c');
@@ -14,30 +17,71 @@ function initGame() {
     }
   }, false);
 
+
   console.log('init');
   socket = io();
-  getPlayerName();
+  playerName = 'Test';
+
+  //getPlayerName();
+  // temp
 
   socket.on('update', function(data) {
-    if (typeof data.board !== 'undefined' && typeof data.snakeList !== 'undefined') renderBoard(data);
+    if (typeof data.board !== 'undefined' && typeof data.snakeList !== 'undefined') {
+      if (data.snakeList.length > 0) updateScoreboard(data);
+      renderBoard(data);
+    }
     else console.log("Issue with board or player");
   });
 
 }
 
+function buttonInput() {
+  var input = document.getElementById('name-input');
+  var button = document.getElementById('enter');
+  var m = document.getElementById('input-m');
+
+  var name = input.value;
+
+  console.log(name);
+  if (typeof name !== 'undefined' && name != "") {
+    playerName = name;
+    getPlayerName();
+    input.remove();
+    button.remove();
+    m.remove();
+  }
+}
+
+function addPlayerScore(name, colour, score) {
+  var text = name + " - " + (score - 2);
+  var scoreboard = document.getElementById("player-list");
+  var newPlayer = document.createElement("li");
+  var textnode=document.createTextNode(text);
+  newPlayer.appendChild(textnode);
+  newPlayer.className += " player";
+  newPlayer.style.color = colour;
+  scoreboard.appendChild(newPlayer);
+}
+
 function getPlayerName() {
-  socket.emit('start', 'Test');
+  socket.emit('start', playerName);
 }
 
 document.onkeydown = function(e) {
   e = e || window.event;
 
   if (e.keyCode !== 37 && e.keyCode !== 38 && e.keyCode !== 39 && e.keyCode !== 40) return;
-  console.log('keystroke detected');
   socket.emit('keystroke', e.keyCode);
 }
 
+function updateScoreboard(data) {
+  var scoreboard = document.getElementById("player-list");
+  scoreboard.innerHTML="";
 
+  for (var i=0; i<data.snakeList.length; i++) {
+    addPlayerScore(data.snakeList[i].name, data.snakeList[i].colour, data.snakeList[i].score);
+  }
+}
 
 
 function renderBoard(data) {

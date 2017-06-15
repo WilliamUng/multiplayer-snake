@@ -14,21 +14,35 @@
   <div class="container">
     <div class="row">
       <div class="col col-md-8">
-        <h1 style ="text-align:center;margin-bottom:50px;">Multiplayer Snake</h1>
+        <h1 style="text-align:center;margin-bottom:50px;">Multiplayer Snake</h1>
       </div>
     </div>
     <div class="row">
       <div class="col col-md-8">
-        <div class ="canv">
+        <div class="canv">
           <canvas id='c' width=660 height=660></canvas>
         </div>
       </div>
-      <div class="col col-md-4">
-        <h2>Scores</h2>
+      <div class="col col-md-4 score-container">
+        <div class="scores">
+          <div class="head">
+            <h2>Scores</h2>
+          </div>
+          <div class="body">
+            <ul id="player-list">
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-md-8 inp">
+        <span id="input-m">Enter a name to join:</span><br />
+        <input name="name-input" id="name-input" type="text" />
+        <button id="enter" class="btn btn-success" onclick="buttonInput()">Enter</button>
       </div>
     </div>
   </div>
-
 </body>
 <script>
   //var socket = io();

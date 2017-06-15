@@ -4,8 +4,8 @@ body {
 
 
 .container {
-  margin-top: 60px;
-  margin-bottom:20px;
+  margin-top: 20px;
+  margin-bottom:50px;
 }
 
 #c {
@@ -19,4 +19,55 @@ body {
   height:680px;
   /*padding: 10px 10px 5px 10px;*/
   border: 10px solid #d8d8d8;
+}
+
+#player-list {
+  padding:0;
+  margin:0;
+}
+
+.player {
+  list-style-type: square;
+  padding: 0;
+  margin-top:5px;
+  margin-bottom: 15px;
+}
+
+.scores {
+  display:inline-block;
+  width: 300px;
+}
+
+.head {
+  background-color: #333333;
+  color:white;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #333333;
+}
+
+.body {
+  color:black;
+  padding:20px 0 20px 40px;
+  border: 1px solid #333333;
+}
+
+h2 {
+  margin:0;
+  font-size: 24px;
+}
+
+button:active {
+  border:none;
+}
+
+.inp {
+  margin-top: 20px;
+}
+
+.inp button {
+  margin-left: 5px;
+}
+
+#input-m {
+  font-size:16px;
 }
