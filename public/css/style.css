@@ -1,0 +1,22 @@
+body {
+  font-family:Montserrat, sans-serif;
+}
+
+
+.container {
+  margin-top: 60px;
+  margin-bottom:20px;
+}
+
+#c {
+    height: 660px;
+    width: 660px;
+    background-color: #000;
+}
+
+.canv {
+  display:inline-block;
+  height:680px;
+  /*padding: 10px 10px 5px 10px;*/
+  border: 10px solid #d8d8d8;
+}

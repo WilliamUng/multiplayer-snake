@@ -19,7 +19,6 @@ var connection = function(socket) {
   socketList.push(socket);
 
   socket.on('start', function(playerName) {
-    console.log(playerName + ' has entered the game.');
     snake.addPlayer(playerName, socket);
   });
   socket.on('disconnect', function() {

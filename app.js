@@ -8,18 +8,10 @@ const io = socketIO(server);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 var socket_server = require('./server/server.js');
-
-
 
 socket_server.initServer(io);
 
 server.listen(process.env.PORT || 3000, function() {
   console.log('Server running on 3000');
 });
-/*
-app.get('/', function(req, res) {
-  res.sendFile('index.html', path.join(__dirname, 'public');
-}
-*/

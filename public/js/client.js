@@ -20,7 +20,7 @@ function initGame() {
 
   socket.on('update', function(data) {
     if (typeof data.board !== 'undefined' && typeof data.snakeList !== 'undefined') renderBoard(data);
-    else console.log("Issue with board or player")
+    else console.log("Issue with board or player");
   });
 
 }
@@ -43,13 +43,12 @@ document.onkeydown = function(e) {
 function renderBoard(data) {
   var board = data.board;
   var snakeList = data.snakeList;
-  console.log(board[30][30]);
   // draw to canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   for (var i = 0; i < 60; i++) {
     for (var j = 0; j < 60; j++) {
       if (board[i][j] == 0) {
-        ctx.fillStyle = "#00283B";
+        ctx.fillStyle = "black";
         ctx.fillRect(i * 11, j * 11, 10, 10);
       }
 
