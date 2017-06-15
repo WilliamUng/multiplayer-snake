@@ -15,7 +15,7 @@ var socket_server = require('./server/server.js');
 
 socket_server.initServer(io);
 
-server.listen(3000, function() {
+server.listen(process.env.PORT || 3000, function() {
   console.log('Server running on 3000');
 });
 /*
