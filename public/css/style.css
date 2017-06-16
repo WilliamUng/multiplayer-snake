@@ -1,11 +1,17 @@
 body {
-  font-family:Montserrat, sans-serif;
+  font-family:'Palanquin Dark', monospace;
 }
 
 
 .container {
   margin-top: 20px;
   margin-bottom:50px;
+}
+
+h1 {
+  width:660px;
+  text-align: center;
+  margin-bottom:30px;
 }
 
 #c {
@@ -21,13 +27,17 @@ body {
   border: 10px solid #d8d8d8;
 }
 
-#player-list {
+#player-list, #rank-list, #score-list {
   padding:0;
   margin:0;
 }
 
 .player {
-  list-style-type: square;
+}
+
+.rank, .score, .player {
+  list-style-type: none;
+
   padding: 0;
   margin-top:5px;
   margin-bottom: 15px;
@@ -35,25 +45,29 @@ body {
 
 .scores {
   display:inline-block;
-  width: 300px;
+  width: 360px;
 }
 
 .head {
-  background-color: #333333;
-  color:white;
-  padding: 10px 10px 10px 40px;
-  border: 1px solid #333333;
+  background-color: #7be402;
+  color:black;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid black;
+  border-bottom: none;
+  text-align: center;
 }
 
 .body {
   color:black;
-  padding:20px 0 20px 40px;
-  border: 1px solid #333333;
+  border: 1px solid black;
+  text-align: left;
+  font-size: 14px;
 }
 
 h2 {
   margin:0;
   font-size: 24px;
+
 }
 
 button:active {
@@ -70,4 +84,50 @@ button:active {
 
 #input-m {
   font-size:16px;
+}
+
+.sub-head {
+  height:30px;
+  text-align: center;
+  line-height: 30px;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #333333;
+}
+
+.sub-body {
+  font-size: 16px;
+  text-align: left;
+  padding-left: 30px;
+  padding-top: 10px;
+}
+
+.head-text {
+
+}
+
+.column-1, .column-3 {
+  margin:0;
+}
+
+
+.body .col{
+  border-right: 1px solid black;
+  padding-right: 0;
+  padding-left:0;
+}
+
+.body .last {
+  border-right: none;
+}
+
+
+
+
+
+.body .row {
+  margin:0;
+}
+
+.column-3 .sub-head {
+  border-right: none;
 }

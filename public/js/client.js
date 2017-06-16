@@ -1,3 +1,4 @@
+
 var canvas;
 var ctx;
 
@@ -52,15 +53,33 @@ function buttonInput() {
   }
 }
 
-function addPlayerScore(name, colour, score) {
-  var text = name + " - " + (score - 2);
-  var scoreboard = document.getElementById("player-list");
-  var newPlayer = document.createElement("li");
-  var textnode=document.createTextNode(text);
-  newPlayer.appendChild(textnode);
-  newPlayer.className += " player";
-  newPlayer.style.color = colour;
-  scoreboard.appendChild(newPlayer);
+function addPlayerScore(name, colour, score, rank) {
+  var ranklist = document.getElementById("rank-list");
+  var playerlist = document.getElementById("player-list");
+  var scorelist = document.getElementById("score-list");
+
+  var playerRank = document.createElement("li");
+  var rankNode=document.createTextNode(rank);
+  playerRank.appendChild(rankNode);
+  playerRank.className += " player";
+  playerRank.style.color = "black";
+  ranklist.appendChild(playerRank);
+
+  var player = document.createElement("li");
+  var nameNode=document.createTextNode(name);
+  player.appendChild(nameNode);
+  player.className += " player";
+  player.style.color = colour;
+  //player.style['text-shadow'] = "0 0 1px " + colour;
+  player.style['text-shadow'] = "0px 1px 0px rgba(0,0,0,0.2)";
+  playerlist.appendChild(player);
+
+  var playerScore = document.createElement("li");
+  var scoreNode=document.createTextNode(score);
+  playerScore.appendChild(scoreNode);
+  playerScore.className += " player";
+  playerScore.style.color = colour;
+  scorelist.appendChild(playerScore);
 }
 
 function getPlayerName() {
@@ -75,11 +94,20 @@ document.onkeydown = function(e) {
 }
 
 function updateScoreboard(data) {
-  var scoreboard = document.getElementById("player-list");
-  scoreboard.innerHTML="";
+  var ranklist = document.getElementById("rank-list");
+  ranklist.innerHTML="";
+  var playerlist = document.getElementById("player-list");
+  playerlist.innerHTML="";
+  var scorelist = document.getElementById("score-list");
+  scorelist.innerHTML="";
+
+  var sortedList = [];
+
+  sortedList = _.sortBy(data.snakeList, "score").reverse();
+  console.log(sortedList);
 
   for (var i=0; i<data.snakeList.length; i++) {
-    addPlayerScore(data.snakeList[i].name, data.snakeList[i].colour, data.snakeList[i].score);
+    addPlayerScore(sortedList[i].name, sortedList[i].colour, sortedList[i].score-2, i+1);
   }
 }
 

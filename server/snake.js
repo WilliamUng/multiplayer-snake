@@ -21,7 +21,6 @@ class Snake {
 
   addPlayer(playerName, socket) {
     // increments the total id count for this session
-
     // assigns an available colour
     var playerColour;
     if (this.playerList.length == 0) {
@@ -33,8 +32,6 @@ class Snake {
         if (this.playerColours[i].val == false) {
           playerColour = this.playerColours[i].hex;
           this.playerColours[i].val = true;
-          console.log(socket);
-          socket.emit('colour', playerColour);
           break;
         }
       }
@@ -80,6 +77,7 @@ class Snake {
     //this.snakeList.push(playerSnake);
 
     console.log("ID: " + playerData.id + " Name: " + playerData.name + " Colour: " + playerData.colour);
+
   }
 
   killPlayer(i, x, y) {
@@ -90,7 +88,6 @@ class Snake {
 
     var disconnectedPlayer;
     for (var i = 0; i < this.playerList.length; i++) {
-      console.log('should be once');
       if (this.playerList[i].socket == socket) {
         disconnectedPlayer = this.playerList[i];
 
@@ -122,7 +119,7 @@ class Snake {
 
         disconnectedPlayer = this.playerList[i];
         // makes colour available
-        var colour = this.playerList[i].playerColour;
+        var colour = this.playerList[i].colour;
         for (var i = 0; i < this.playerColours.length; i++) {
           if (this.playerColours[i].hex == colour) {
             this.playerColours[i].val = false;
