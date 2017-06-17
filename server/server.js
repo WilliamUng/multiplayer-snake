@@ -6,13 +6,9 @@ var socketList = [];
 var snake;
 
 var initServer = function(io) {
-
-
   io.on('connection', this.connection);
   snake = new Snake(settings.boardSize);
   snake.setListener(this.gameEvent);
-
-
 }
 
 var connection = function(socket) {
@@ -30,13 +26,6 @@ var connection = function(socket) {
   });
 }
 
-var initPlayer = function(socket) {
-
-}
-
-
-
-
 var gameEvent = function(event, data) {
   if (event == 'update' && typeof socketList !== 'undefined') {
     for (var i = 0; i < socketList.length; i++) {
@@ -45,6 +34,4 @@ var gameEvent = function(event, data) {
   }
 }
 
-
-
-module.exports = {initServer, gameEvent, connection, initPlayer, socketList, snake};
+module.exports = {initServer, gameEvent, connection, socketList, snake};

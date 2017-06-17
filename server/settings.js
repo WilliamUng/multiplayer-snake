@@ -7,6 +7,8 @@ var settings = {
     {hex:"#e400ff", val:false}, //magenta
     {hex:"#EAEA00", val:false}, //yellow
     {hex:"#00ffd8", val:false}, //turquoise
+    {hex:"#7700CA", val:false}, //purple
+    {hex:"#5A1111", val:false}  //maroon
   ]
 }
 

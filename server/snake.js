@@ -115,6 +115,7 @@ class Snake {
   removePlayer(socket) {
     var disconnectedPlayer;
     for (var i = 0; i < this.playerList.length; i++) {
+
       if (this.playerList[i].socket == socket) {
 
         disconnectedPlayer = this.playerList[i];
@@ -158,6 +159,10 @@ class Snake {
 
   setListener(eventListener) {
     this.listener = eventListener;
+  }
+
+  getPlayerCount() {
+    return this.playerList.length;
   }
 
   movePlayers() {

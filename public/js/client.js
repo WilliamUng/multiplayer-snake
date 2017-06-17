@@ -5,6 +5,8 @@ var ctx;
 var socket;
 var playerName;
 var playerColour;
+var playerCount;
+
 
 
 function initGame() {
@@ -21,13 +23,13 @@ function initGame() {
 
   console.log('init');
   socket = io();
-  playerName = 'Test';
 
   //getPlayerName();
   // temp
 
   socket.on('update', function(data) {
     if (typeof data.board !== 'undefined' && typeof data.snakeList !== 'undefined') {
+      playerCount = data.snakeList.length;
       if (data.snakeList.length > 0) updateScoreboard(data);
       renderBoard(data);
     }
@@ -44,7 +46,7 @@ function buttonInput() {
   var name = input.value;
 
   console.log(name);
-  if (typeof name !== 'undefined' && name != "") {
+  if (typeof name !== 'undefined' && name.trim().length !== 0 && playerCount < 8 && name.length <=15) {
     playerName = name;
     getPlayerName();
     input.remove();
@@ -61,24 +63,27 @@ function addPlayerScore(name, colour, score, rank) {
   var playerRank = document.createElement("li");
   var rankNode=document.createTextNode(rank);
   playerRank.appendChild(rankNode);
-  playerRank.className += " player";
-  playerRank.style.color = "black";
+  playerRank.style.color = "white";
+  playerRank.style['background-color'] = colour;
+  playerRank.className += " rank";
+  //playerRank.style.color = colour;
   ranklist.appendChild(playerRank);
 
   var player = document.createElement("li");
   var nameNode=document.createTextNode(name);
   player.appendChild(nameNode);
   player.className += " player";
-  player.style.color = colour;
-  //player.style['text-shadow'] = "0 0 1px " + colour;
-  player.style['text-shadow'] = "0px 1px 0px rgba(0,0,0,0.2)";
+  player.style.color = "white";
+  player.style['background-color'] = colour;
   playerlist.appendChild(player);
 
   var playerScore = document.createElement("li");
   var scoreNode=document.createTextNode(score);
   playerScore.appendChild(scoreNode);
-  playerScore.className += " player";
-  playerScore.style.color = colour;
+  playerScore.className += " score";
+  playerScore.style.color = "white";
+  playerScore.style['background-color'] = colour;
+  //playerScore.style.color = colour;
   scorelist.appendChild(playerScore);
 }
 
