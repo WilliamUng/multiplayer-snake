@@ -1,3 +1,5 @@
+
+
 body {
   font-family:'Palanquin Dark', monospace;
 }
@@ -133,11 +135,14 @@ button:active {
   border-right: none;
 }
 
-.body
+#err {
+  color:red;
+}
 
 
 .score-container {
   background-color:black;
+  padding:0;
 }
 
 

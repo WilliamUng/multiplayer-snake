@@ -1,27 +1,27 @@
 class Snake {
 
   constructor(boardSize) {
+    // initialize game board and start game timer
     this.boardSize = boardSize;
     this.board = this.createBoard();
     this.startTimer();
-
     this.playerList = [];
-    this.snakeList = [];
     this.playerID = 2;
 
+    // load general settings
     const settings = require('./settings.js');
     this.playerColours = settings.playerColours;
 
+    // spawn food
     this.foodCount = 0;
-    while (this.foodCount < 5) {
+    while (this.foodCount < 6) {
       this.spawnFood();
       this.foodCount++;
     }
   }
 
   addPlayer(playerName, socket) {
-    // increments the total id count for this session
-    // assigns an available colour
+    // assign an available colour to new player
     var playerColour;
     if (this.playerList.length == 0) {
       playerColour = this.playerColours[0].hex;
@@ -37,12 +37,12 @@ class Snake {
       }
     }
 
+
     var spawnLocation = this.spawnLocation();
     var direction = 'RIGHT';
     var nextDir = 'RIGHT';
 
-    // assigns location
-
+    // initialize object to store player data
     var playerData = {
       id: this.playerID,
       name: playerName,
@@ -60,33 +60,22 @@ class Snake {
 
     playerData.head.next = playerData.tail;
     playerData.tail.prev = playerData.head;
-
-    var snakeList = [];
-
-    var playerSnake = {
-      id: this.playerID,
-      colour: playerColour
-    }
-
     this.playerID++;
-
     this.board[playerData.head.x][playerData.head.y] = playerData.id;
     this.board[playerData.tail.x][playerData.tail.y] = playerData.id;
-
     this.playerList.push(playerData);
-    //this.snakeList.push(playerSnake);
 
-    console.log("ID: " + playerData.id + " Name: " + playerData.name + " Colour: " + playerData.colour);
-
+    console.log("Player connected.");
+    console.log("id: " + playerData.id + " name: " + playerData.name + " colour: " + playerData.colour);
   }
 
   killPlayer(i, x, y) {
     var name = this.playerList[i].name;
     var socket = this.playerList[i].socket;
 
-    console.log(this.playerList[i].size);
-
     var disconnectedPlayer;
+
+    // reset player data
     for (var i = 0; i < this.playerList.length; i++) {
       if (this.playerList[i].socket == socket) {
         disconnectedPlayer = this.playerList[i];
@@ -114,6 +103,7 @@ class Snake {
 
   removePlayer(socket) {
     var disconnectedPlayer;
+    // disconnect player
     for (var i = 0; i < this.playerList.length; i++) {
 
       if (this.playerList[i].socket == socket) {
@@ -138,6 +128,7 @@ class Snake {
   }
 
   clearPlayer(p) {
+    // resets player occupied squares
     var tail = p.tail;
     for (var i = 0; i < p.size; i++) {
       this.board[tail.x][tail.y] = 0;
@@ -146,7 +137,7 @@ class Snake {
   }
 
   createBoard() {
-    console.log('Board created');
+    // initialize grid
     var board = new Array(this.boardSize);
     for (var i = 0; i < this.boardSize; i++) {
       board[i] = new Array(this.boardSize);
@@ -167,10 +158,9 @@ class Snake {
 
   movePlayers() {
     for (var i = 0; i < this.playerList.length; i++) {
-
       var nextX;
       var nextY;
-
+      // generate next frame
       if (this.playerList[i].nextDir == "RIGHT" || this.playerList[i].nextDir == "LEFT") {
         this.playerList[i].direction = this.playerList[i].nextDir;
         nextX = this.nextStepHorizontal(i, this.playerList[i].head.x, this.playerList[i].direction)
@@ -180,9 +170,7 @@ class Snake {
         nextY = this.nextStepVertical(i, this.playerList[i].head.y, this.playerList[i].direction)
         nextX = this.playerList[i].head.x;
       }
-
-
-
+      // check for collision
       if (this.board[nextX][nextY] == 1) {
         this.playerPush(i, nextX, nextY);
         this.playerList[i].size++;
@@ -197,16 +185,11 @@ class Snake {
         }
         this.killPlayer(i, nextX, nextY);
       } else {
+        // move on empty square
         this.playerPush(i, nextX, nextY);
         this.playerPop(i);
       }
-
-
-      //console.log(this.playerList[i].tail.x + " " + this.playerList[i].tail.prev.x)
-
     }
-
-
   }
 
 
@@ -241,7 +224,6 @@ class Snake {
     this.playerList[i].head.next = next;
     this.playerList[i].head.next.prev = this.playerList[i].head;
     this.board[x][y] = this.playerList[i].id;
-
   }
 
   playerPop(i) {
@@ -253,8 +235,9 @@ class Snake {
     var clear = false;
     while (!clear) {
       clear = true;
-      var x = Math.floor(Math.random() * (this.boardSize - 3)) + 1;
-      var y = Math.floor(Math.random() * (this.boardSize - 3)) + 1;
+      // generate location within grid
+      var x = Math.floor(Math.random() * (this.boardSize - 4)) + 1;
+      var y = Math.floor(Math.random() * (this.boardSize - 4)) + 1;
 
       if (this.board[x][y] != 0 || this.board[x + 1][y] >= 2 || this.board[x + 2][y] >= 2 || this.board[x + 3][y] >= 2) {
         clear = false;
@@ -293,7 +276,7 @@ class Snake {
 
   gameUpdate() {
     this.movePlayers();
-    while (this.foodCount < 5) {
+    while (this.foodCount < (this.playerList.length*2 + 4)) {
       this.spawnFood();
       this.foodCount++;
     }
@@ -301,7 +284,7 @@ class Snake {
     for (var i=0; i<this.playerList.length; i++) {
       this.snakeList.push({colour:this.playerList[i].colour, id:this.playerList[i].id, name:this.playerList[i].name, score:this.playerList[i].size});
     }
-
+    // transfer data for rendering and scoreboard
     if (typeof this.listener !== 'undefined') {
       var data = {
         board: this.board,
@@ -309,10 +292,10 @@ class Snake {
       };
       this.listener('update', data);
     }
-    //console.log("listener not working");
   }
 
   startTimer() {
+    // 1 frame per 100ms
     this.timer = setInterval(() => {
       this.gameUpdate();
     }, 100);
